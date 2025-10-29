@@ -1,0 +1,89 @@
+<button (click)="logOut()">Logout</button>
+
+<div class="dashboard-container">
+  <header>
+    <h1>Gestão de Performance</h1>
+  </header>
+
+  <section class="conteudo">
+    <!-- Colaboradores -->
+    <div class="card colaboradores">
+      <h2>Colaboradores</h2>
+
+      <div class="acoes">
+        <button mat-raised-button color="primary" (click)="adicionarColaborador()">
+          + Adicionar
+        </button>
+        <button mat-stroked-button color="warn" (click)="atualizarLista()">
+          Atualizar Lista
+        </button>
+      </div>
+
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Cargo</th>
+            <th>Matrícula</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let colab of colaboradores">
+            <td>{{ colab.nome }}</td>
+            <td>{{ colab.cargo }}</td>
+            <td>{{ colab.matricula }}</td>
+            <td class="acoes-tabela">
+              <button mat-icon-button color="primary" (click)="editarColaborador(colab)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="excluirColaborador(colab)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Avaliações -->
+    <div class="card avaliacoes">
+      <h2>Avaliações</h2>
+
+      <div class="abas">
+        <button
+          mat-raised-button
+          color="primary"
+          [class.ativo]="aba === 'comportamental'"
+          (click)="aba = 'comportamental'">
+          Comportamentais
+        </button>
+
+        <button
+          mat-raised-button
+          color="primary"
+          [class.ativo]="aba === 'desafio'"
+          (click)="aba = 'desafio'">
+          Desafios
+        </button>
+      </div>
+
+      <div class="conteudo-avaliacao" *ngIf="aba === 'comportamental'">
+        <h3>Avaliações Comportamentais</h3>
+        <p>Gerencie as avaliações de comportamento dos colaboradores.</p>
+        <button mat-raised-button color="primary" (click)="novaAvaliacao('comportamental')">
+          Nova Avaliação
+        </button>
+      </div>
+
+      <div class="conteudo-avaliacao" *ngIf="aba === 'desafio'">
+        <h3>Avaliações de Desafio</h3>
+        <p>Gerencie as notas dos desafios técnicos e entregas.</p>
+        <button mat-raised-button color="primary" (click)="novaAvaliacao('desafio')">
+          Nova Avaliação
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
+

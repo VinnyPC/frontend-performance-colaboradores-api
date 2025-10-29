@@ -1,0 +1,32 @@
+<div class="form-wrapper">
+  <h2 class="titulo">Adicionar Colaborador</h2>
+
+  <div class="form-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Matrícula</mat-label>
+      <input matInput [(ngModel)]="colaborador.matricula" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input matInput [(ngModel)]="colaborador.nome" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Data de Admissão</mat-label>
+      <input matInput type="date" [(ngModel)]="colaborador.data_admissao" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Cargo</mat-label>
+      <input matInput [(ngModel)]="colaborador.cargo" required />
+    </mat-form-field>
+  </div>
+
+  <div class="botoes">
+    <button mat-stroked-button color="warn" (click)="fechar()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="salvar()" [disabled]="carregando">
+      {{ carregando ? 'Salvando...' : 'Salvar' }}
+    </button>
+  </div>
+</div>

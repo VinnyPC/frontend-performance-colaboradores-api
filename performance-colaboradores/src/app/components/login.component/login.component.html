@@ -1,0 +1,21 @@
+<div class="login-container">
+  <h2>Login</h2>
+
+  <form (ngSubmit)="login()">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="email" name="email" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Senha</mat-label>
+      <input matInput type="password" [(ngModel)]="senha" name="senha" required />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" [disabled]="carregando">
+      {{ carregando ? 'Entrando...' : 'Entrar' }}
+    </button>
+
+    <div *ngIf="erro" class="erro">{{ erro }}</div>
+  </form>
+</div>
