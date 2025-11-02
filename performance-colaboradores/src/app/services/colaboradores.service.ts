@@ -4,7 +4,7 @@ import { catchError, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ColaboradoresService {
-    private baseUrl = 'https://097o2hnb48.execute-api.us-east-1.amazonaws.com/dev';
+    private baseUrl = '/api';
 
     constructor(private http: HttpClient) { }
 
