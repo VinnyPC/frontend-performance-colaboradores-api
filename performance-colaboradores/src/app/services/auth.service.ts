@@ -29,7 +29,7 @@ export class AuthService {
             Username: username,
             Pool: userPool
         });
-
+ 
         user.setAuthenticationFlowType('USER_PASSWORD_AUTH');
 
         return new Promise((resolve, reject) => {
