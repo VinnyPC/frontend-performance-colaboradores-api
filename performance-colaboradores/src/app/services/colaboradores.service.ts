@@ -15,7 +15,7 @@ export class ColaboradoresService {
             'Authorization': `Bearer ${token}`
         });
 
-        // Remove o campo "id" antes de enviar
+
         const payload = { ...data };
         delete payload.id;
 
