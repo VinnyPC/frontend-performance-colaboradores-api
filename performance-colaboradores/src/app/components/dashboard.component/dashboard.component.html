@@ -1,12 +1,17 @@
-<button (click)="logOut()">Logout</button>
 
+<div style="display: flex; align-items: end;">
+  
+</div>
 <div class="dashboard-container">
-  <header>
+  <header style="display: flex; justify-content: space-between;">
     <h1>Gestão de Performance</h1>
+    <button mat-raised-button color="primary" (click)="logOut()">
+          Logout
+      </button>
   </header>
 
   <section class="conteudo">
-    <!-- Colaboradores -->
+    <!-- COLABORADORES -->
     <div class="card colaboradores">
       <h2>Colaboradores</h2>
 
@@ -14,9 +19,7 @@
         <button mat-raised-button color="primary" (click)="adicionarColaborador()">
           + Adicionar
         </button>
-        <button mat-stroked-button color="warn" (click)="atualizarLista()">
-          Atualizar Lista
-        </button>
+        <button mat-stroked-button color="warn" (click)="atualizarLista()">Atualizar Lista</button>
       </div>
 
       <table class="tabela">
@@ -29,7 +32,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let colab of colaboradores">
+          <tr
+            *ngFor="let colab of colaboradoresArray"
+            (click)="selecionarColaborador(colab)"
+            [class.selecionado]="colaboradorSelecionado?.matricula === colab.matricula"
+          >
             <td>{{ colab.nome }}</td>
             <td>{{ colab.cargo }}</td>
             <td>{{ colab.matricula }}</td>
@@ -46,44 +53,175 @@
       </table>
     </div>
 
-    <!-- Avaliações -->
+    <!-- AVALIAÇÕES -->
     <div class="card avaliacoes">
       <h2>Avaliações</h2>
 
-      <div class="abas">
-        <button
-          mat-raised-button
-          color="primary"
-          [class.ativo]="aba === 'comportamental'"
-          (click)="aba = 'comportamental'">
-          Comportamentais
-        </button>
-
-        <button
-          mat-raised-button
-          color="primary"
-          [class.ativo]="aba === 'desafio'"
-          (click)="aba = 'desafio'">
-          Desafios
-        </button>
+      <div *ngIf="!colaboradorSelecionado" class="info">
+        <p>Selecione um colaborador na tabela ao lado para visualizar suas avaliações.</p>
       </div>
 
-      <div class="conteudo-avaliacao" *ngIf="aba === 'comportamental'">
-        <h3>Avaliações Comportamentais</h3>
-        <p>Gerencie as avaliações de comportamento dos colaboradores.</p>
-        <button mat-raised-button color="primary" (click)="novaAvaliacao('comportamental')">
-          Nova Avaliação
-        </button>
-      </div>
+      <div *ngIf="colaboradorSelecionado">
+        <h3>Avaliações de {{ colaboradorSelecionado.nome }}</h3>
 
-      <div class="conteudo-avaliacao" *ngIf="aba === 'desafio'">
-        <h3>Avaliações de Desafio</h3>
-        <p>Gerencie as notas dos desafios técnicos e entregas.</p>
-        <button mat-raised-button color="primary" (click)="novaAvaliacao('desafio')">
-          Nova Avaliação
-        </button>
+        <!-- Abas -->
+        <div class="abas">
+          <button
+            mat-raised-button
+            color="primary"
+            [class.ativo]="aba === 'comportamental'"
+            (click)="alterarAba('comportamental'); carregarAvaliacoes(colaboradorSelecionado.matricula)"
+          >
+            Comportamentais
+          </button>
+
+          <button
+            mat-raised-button
+            color="primary"
+            [class.ativo]="aba === 'desafio'"
+            (click)="alterarAba('desafio'); carregarAvaliacoes(colaboradorSelecionado.matricula)"
+          >
+            Desafios
+          </button>
+
+          <button
+            mat-raised-button
+            color="primary"
+            [class.ativo]="aba === 'notas_finais'"
+            (click)="alterarAba('notas_finais'); carregarAvaliacoes(colaboradorSelecionado.matricula)"
+          >
+            Notas Finais
+          </button>
+
+          <button
+            mat-stroked-button
+            color="accent"
+            (click)="carregarAvaliacoes(colaboradorSelecionado.matricula)"
+          >
+            Recarregar
+          </button>
+
+          <button mat-raised-button color="primary" (click)="abrirCadastroAvaliacao()">
+            Nova Avaliação
+          </button>
+        </div>
+
+        <!-- NOTAS FINAIS -->
+        <div *ngIf="aba === 'notas_finais'">
+          <h4>Notas Finais Calculadas</h4>
+
+          <table class="tabela-avaliacoes" *ngIf="notasFinaisArray.length > 0; else semNotas">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Data de Cálculo</th>
+                <th>Média Comportamental</th>
+                <th>Média Desafio</th>
+                <th>Nota Final</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let nota of notasFinaisArray">
+                <td>{{ nota.id }}</td>
+                <td>{{ nota.data_calculo | date : 'dd/MM/yyyy' }}</td>
+                <td>{{ nota.media_comportamental }}</td>
+                <td>{{ nota.media_desafio }}</td>
+                <td>
+                  <strong>{{ nota.nota_final }}</strong>
+                </td>
+                <td class="acoes-tabela">
+                  <!-- <button mat-icon-button color="primary" (click)="editarNotaFinal(nota)">
+                    <mat-icon>edit</mat-icon>
+                  </button> -->
+                  <button mat-icon-button color="warn" (click)="excluirNotaFinal(nota.id)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <ng-template #semNotas>
+            <p>Nenhuma nota final encontrada.</p>
+          </ng-template>
+        </div>
+
+        <!-- Seleção de Avaliação por Data -->
+        <div *ngIf="avaliacoesArray.length > 1" class="filtro-data">
+          <label>Selecionar data de avaliação:</label>
+          <select [(ngModel)]="avaliacaoSelecionada">
+            <option *ngFor="let a of avaliacoesArray" [ngValue]="a">
+              {{ a.data_avaliacao | date : 'dd/MM/yyyy' }}
+            </option>
+          </select>
+        </div>
+
+        <!-- COMPORTAMENTAIS -->
+        <div *ngIf="aba === 'comportamental' && avaliacaoSelecionada">
+          <h4>Média Comportamental: {{ avaliacaoSelecionada.media_comportamental || '-' }}</h4>
+
+          <table
+            class="tabela-avaliacoes"
+            *ngIf="avaliacaoSelecionada.itens?.length; else semComportamental"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Descrição</th>
+                <th>Nota</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of avaliacaoSelecionada.itens">
+                <td>{{ item.numero_questao }}</td>
+                <td>{{ item.descricao }}</td>
+                <td>{{ item.nota }}</td>
+                <td class="acoes-tabela">
+                  <button mat-icon-button color="primary" (click)="editarComportamental(item)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <ng-template #semComportamental>
+            <p>Nenhuma avaliação comportamental encontrada.</p>
+          </ng-template>
+        </div>
+
+        <!-- DESAFIOS -->
+        <div *ngIf="aba === 'desafio' && avaliacaoSelecionada">
+          <h4>Média Desafio: {{ avaliacaoSelecionada.media_desafio || '-' }}</h4>
+
+          <table
+            class="tabela-avaliacoes"
+            *ngIf="avaliacaoSelecionada.itens?.length; else semDesafios"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Descrição</th>
+                <th>Nota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of avaliacaoSelecionada.itens">
+                <td>{{ item.numero_desafio }}</td>
+                <td>{{ item.descricao }}</td>
+                <td>{{ item.nota }}</td>
+                
+              </tr>
+            </tbody>
+          </table>
+
+          <ng-template #semDesafios>
+            <p>Nenhum desafio encontrado.</p>
+          </ng-template>
+        </div>
       </div>
     </div>
   </section>
 </div>
-

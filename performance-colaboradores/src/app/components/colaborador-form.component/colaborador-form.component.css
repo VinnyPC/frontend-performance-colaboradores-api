@@ -1,12 +1,30 @@
+/* Container principal do modal */
+.cadastro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    /* 🔥 remove scroll lateral */
+}
+
+/* Envolve o formulário */
 .form-wrapper {
     background: #fff;
-    border-radius: 16px;
-    padding: 2rem 1.5rem;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 100%;
+    /* 🔥 ocupa todo o espaço disponível no modal */
+    max-width: 100%;
+    /* 🔥 impede overflow */
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    
     color: #333;
 }
 
@@ -14,7 +32,7 @@
 .titulo {
     color: #FF6200;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     text-align: center;
     margin: 0 0 1rem 0;
 }
@@ -24,27 +42,8 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-}
-
-/* Borda e label em laranja */
-::ng-deep .mat-mdc-form-field-outline {
-    color: #FF6200 !important;
-}
-
-::ng-deep .mdc-text-field--outlined .mdc-notched-outline__leading,
-::ng-deep .mdc-text-field--outlined .mdc-notched-outline__trailing,
-::ng-deep .mdc-text-field--outlined .mdc-notched-outline__notch {
-    border-color: rgba(255, 98, 0, 0.4) !important;
-}
-
-::ng-deep .mdc-text-field--focused .mdc-notched-outline__leading,
-::ng-deep .mdc-text-field--focused .mdc-notched-outline__trailing,
-::ng-deep .mdc-text-field--focused .mdc-notched-outline__notch {
-    border-color: #FF6200 !important;
-}
-
-::ng-deep .mdc-floating-label {
-    color: rgba(255, 98, 0, 0.8) !important;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Botões */
@@ -53,39 +52,52 @@
     justify-content: space-between;
     gap: 1rem;
     margin-top: 0.5rem;
+    flex-wrap: wrap;
+    /* 🔥 impede quebra lateral */
 }
 
+/* Botão primário */
 button[mat-raised-button] {
     background-color: #FF6200;
     color: #fff;
     font-weight: 600;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0 4px 10px rgba(255, 98, 0, 0.3);
     transition: all 0.3s ease;
 }
 
 button[mat-raised-button]:hover {
     background-color: #e55a00;
-    box-shadow: 0 6px 14px rgba(255, 98, 0, 0.4);
 }
 
+/* Botão cancelar */
 button[mat-stroked-button] {
     color: #FF6200;
     border-color: #FF6200;
     font-weight: 600;
-    border-radius: 10px;
-    transition: all 0.2s ease;
+    border-radius: 8px;
 }
 
 button[mat-stroked-button]:hover {
     background-color: rgba(255, 98, 0, 0.05);
 }
 
-/* Responsividade */
-@media (max-width: 500px) {
+/* 🔹 Responsividade dentro do modal */
+@media (max-width: 600px) {
+    .cadastro-container {
+        padding: 1rem;
+    }
+
     .form-wrapper {
-        min-width: unset;
+        padding: 1rem;
+    }
+
+    .botoes {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .botoes button {
         width: 100%;
-        padding: 1.5rem;
     }
 }

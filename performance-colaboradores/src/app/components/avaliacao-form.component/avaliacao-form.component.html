@@ -1,0 +1,36 @@
+<h2>Nova Avaliação</h2>
+
+<div>
+  <label>Matrícula:</label>
+  <input [(ngModel)]="avaliacao.matricula" readonly />
+</div>
+
+<div>
+  <label>Data da Avaliação:</label>
+  <input type="date" [(ngModel)]="avaliacao.data_avaliacao" />
+</div>
+
+<hr />
+
+<h3>Avaliação Comportamental</h3>
+<div *ngFor="let q of avaliacao.comportamental">
+  <p><strong>{{ q.numero_questao }}.</strong> {{ q.descricao }}</p>
+  <select [(ngModel)]="q.nota">
+    <option *ngFor="let n of [1,2,3,4,5]" [value]="n">{{ n }}</option>
+  </select>
+</div>
+
+<hr />
+
+<h3>Desafios</h3>
+<div *ngFor="let d of avaliacao.desafios">
+  <p><strong>{{ d.numero_desafio }}.</strong> {{ d.descricao }}</p>
+  <select [(ngModel)]="d.nota">
+    <option *ngFor="let n of [1,2,3,4,5]" [value]="n">{{ n }}</option>
+  </select>
+</div>
+
+<div class="acoes">
+  <button mat-stroked-button color="warn" (click)="fechar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+</div>

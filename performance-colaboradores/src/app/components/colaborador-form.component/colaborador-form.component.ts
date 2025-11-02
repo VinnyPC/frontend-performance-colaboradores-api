@@ -1,11 +1,12 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { ColaboradoresService } from '../../services/colaboradores.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-colaborador-form',
@@ -21,7 +22,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
   templateUrl: './colaborador-form.component.html',
   styleUrls: ['./colaborador-form.component.css']
 })
-export class ColaboradorFormComponent {
+export class ColaboradorFormComponent implements OnInit {
   colaborador = {
     matricula: '',
     nome: '',
@@ -30,12 +31,20 @@ export class ColaboradorFormComponent {
   };
 
   carregando = false;
+  editando = false;
 
   constructor(
     private dialogRef: MatDialogRef<ColaboradorFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private http: HttpClient
+    private colaboradoresService: ColaboradoresService
   ) { }
+
+  ngOnInit(): void {
+    if (this.data) {
+      this.editando = true;
+      this.colaborador = { ...this.data };
+    }
+  }
 
   fechar() {
     this.dialogRef.close();
@@ -44,28 +53,30 @@ export class ColaboradorFormComponent {
   salvar() {
     this.carregando = true;
 
-    const token = localStorage.getItem('id_token');
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-
-    this.http.post(
-      'https://097o2hnb48.execute-api.us-east-1.amazonaws.com/dev/colaboradores',
-      this.colaborador,
-      { headers }
-    ).subscribe({
-      next: () => {
-        alert('Colaborador cadastrado com sucesso!');
-        this.carregando = false;
-        this.dialogRef.close(true);
-      },
-      error: (err) => {
-        console.error('Erro ao cadastrar:', err);
-        alert('Erro ao cadastrar colaborador.');
-        this.carregando = false;
-      }
-    });
+    if (this.editando) {
+      this.colaboradoresService.atualizar(this.colaborador.matricula, this.colaborador).subscribe({
+        next: () => {
+          alert('✅ Colaborador atualizado com sucesso!');
+          this.dialogRef.close(true);
+        },
+        error: (err) => {
+          console.error('❌ Erro ao atualizar:', err);
+          alert('Erro ao atualizar colaborador.');
+          this.carregando = false;
+        }
+      });
+    } else {
+      this.colaboradoresService.criar(this.colaborador).subscribe({
+        next: () => {
+          alert('✅ Colaborador cadastrado com sucesso!');
+          this.dialogRef.close(true);
+        },
+        error: (err) => {
+          console.error('❌ Erro ao cadastrar:', err);
+          alert('Erro ao cadastrar colaborador.');
+          this.carregando = false;
+        }
+      });
+    }
   }
 }

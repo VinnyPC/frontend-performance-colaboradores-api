@@ -1,0 +1,104 @@
+/* Container principal */
+.cadastro-container {
+    background-color: #fff;
+    max-width: 420px;
+    margin: 10vh auto;
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Título */
+.cadastro-container h2 {
+    color: #FF6200;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+}
+
+/* Campos */
+mat-form-field {
+    width: 100%;
+}
+
+/* Bordas e labels do Angular Material */
+::ng-deep .mat-mdc-form-field-outline {
+    color: #FF6200 !important;
+}
+
+::ng-deep .mdc-text-field--outlined .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined .mdc-notched-outline__trailing,
+::ng-deep .mdc-text-field--outlined .mdc-notched-outline__notch {
+    border-color: rgba(255, 98, 0, 0.4) !important;
+}
+
+::ng-deep .mdc-text-field--focused .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--focused .mdc-notched-outline__trailing,
+::ng-deep .mdc-text-field--focused .mdc-notched-outline__notch {
+    border-color: #FF6200 !important;
+}
+
+::ng-deep .mdc-floating-label {
+    color: rgba(255, 98, 0, 0.8) !important;
+}
+
+/* Botão principal */
+button[mat-raised-button] {
+    width: 100%;
+    height: 48px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #FF6200;
+    box-shadow: 0 4px 10px rgba(255, 98, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+button[mat-raised-button]:hover {
+    background-color: #e55b00;
+    box-shadow: 0 6px 14px rgba(255, 98, 0, 0.4);
+}
+
+/* Mensagens */
+.erro,
+.sucesso {
+    margin-top: 0.8rem;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.erro {
+    color: #d32f2f;
+    background: rgba(211, 47, 47, 0.1);
+    border: 1px solid rgba(211, 47, 47, 0.3);
+}
+
+.sucesso {
+    color: #2e7d32;
+    background: rgba(46, 125, 50, 0.1);
+    border: 1px solid rgba(46, 125, 50, 0.3);
+}
+
+/* Foco e responsividade */
+input:focus {
+    outline: none;
+}
+
+@media (max-width: 500px) {
+    .cadastro-container {
+        margin: 5vh 1rem;
+        padding: 2rem 1.5rem;
+    }
+
+    .cadastro-container h2 {
+        font-size: 1.6rem;
+    }
+}
