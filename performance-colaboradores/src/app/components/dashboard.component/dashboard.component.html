@@ -28,7 +28,6 @@
             <th>Nome</th>
             <th>Cargo</th>
             <th>Matrícula</th>
-            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -40,14 +39,7 @@
             <td>{{ colab.nome }}</td>
             <td>{{ colab.cargo }}</td>
             <td>{{ colab.matricula }}</td>
-            <td class="acoes-tabela">
-              <button mat-icon-button color="primary" (click)="editarColaborador(colab)">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" (click)="excluirColaborador(colab)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </td>
+            
           </tr>
         </tbody>
       </table>
