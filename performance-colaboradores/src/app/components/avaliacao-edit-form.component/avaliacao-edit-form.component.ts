@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { environment } from '../../../evironments/environment.prod';
 
 @Component({
   selector: 'app-avaliacao-edit-form',
@@ -49,7 +50,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   `]
 })
 export class AvaliacaoEditFormComponent {
-  private baseUrl = '/api';
+  private baseUrl = environment.apiUrl;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

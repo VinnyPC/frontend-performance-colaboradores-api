@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
+import { environment } from '../../evironments/environment.prod';
 
 @Injectable({ providedIn: 'root' })
 export class ColaboradoresService {
-    private baseUrl = '/api';
+    private baseUrl = environment.apiUrl;
 
     constructor(private http: HttpClient) { }
 

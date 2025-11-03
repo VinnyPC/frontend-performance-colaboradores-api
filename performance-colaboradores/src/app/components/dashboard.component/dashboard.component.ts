@@ -11,6 +11,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 import { AvaliacaoFormComponent } from '../avaliacao-form.component/avaliacao-form.component';
 import { AvaliacaoEditFormComponent } from '../avaliacao-edit-form.component/avaliacao-edit-form.component';
+import { environment } from '../../../evironments/environment.prod';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,7 +28,7 @@ import { AvaliacaoEditFormComponent } from '../avaliacao-edit-form.component/ava
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  private baseUrl = '/api';
+  private baseUrl = environment.apiUrl;
 
   colaboradoresArray: any[] = [];
   colaboradorSelecionado: any = null;

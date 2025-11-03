@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { environment } from '../../../evironments/environment.prod';
 
 @Component({
   selector: 'app-avaliacao-form',
@@ -24,7 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./avaliacao-form.component.css']
 })
 export class AvaliacaoFormComponent {
-  private baseUrl = '/api/avaliacoes';
+  private baseUrl = environment.apiUrl + '/avaliacoes';
 
   avaliacao: any; // ✅ declaramos mas não inicializamos ainda
 
