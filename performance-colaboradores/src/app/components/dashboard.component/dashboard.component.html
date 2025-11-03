@@ -162,7 +162,6 @@
                 <th>#</th>
                 <th>Descrição</th>
                 <th>Nota</th>
-                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -170,11 +169,6 @@
                 <td>{{ item.numero_questao }}</td>
                 <td>{{ item.descricao }}</td>
                 <td>{{ item.nota }}</td>
-                <td class="acoes-tabela">
-                  <button mat-icon-button color="primary" (click)="editarComportamental(item)">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                </td>
               </tr>
             </tbody>
           </table>
