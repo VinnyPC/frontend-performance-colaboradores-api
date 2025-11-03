@@ -10,6 +10,7 @@ export class ColaboradoresService {
     constructor(private http: HttpClient) { }
 
     atualizar(matricula: string, data: any) {
+        
         const token = localStorage.getItem('id_token');
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
